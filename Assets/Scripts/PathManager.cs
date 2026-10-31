@@ -17,10 +17,9 @@ public class PathManager : MonoBehaviour
         CheeseType.BigCheese
     };
 
-    // ÚNICA lista ligada del proyecto
     private readonly MyLinkedList<Cheese> route = new MyLinkedList<Cheese>();
 
-    private Node<Cheese> currentNode;   // en qué nodo de la lista vamos
+    private Node<Cheese> currentNode; 
     private bool reversed;
 
     public bool Finished => currentNode == null;
