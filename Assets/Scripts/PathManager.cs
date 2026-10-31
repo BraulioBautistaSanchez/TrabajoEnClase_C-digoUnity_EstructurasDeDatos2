@@ -5,10 +5,10 @@ using UnityEngine;
 // y sabe cuál es el "siguiente objetivo" del agente.
 public class PathManager : MonoBehaviour
 {
-    [Header("Los 4 quesos de la escena (arrástralos en cualquier orden)")]
+    [Header("Aqui van los quesos")]
     [SerializeField] private Cheese[] cheeses;
 
-    [Header("Orden del programador (modos Normal y Reversed)")]
+    [Header("Orden del programador, modos Normal y Reversed")]
     [SerializeField] private CheeseType[] normalOrder =
     {
         CheeseType.LittleCheese,
@@ -36,7 +36,6 @@ public class PathManager : MonoBehaviour
         route.Clear();
         reversed = GameSettings.Mode == RouteMode.Reversed;
 
-        // 1) ¿Qué orden usamos para llenar la lista?
         IEnumerable<CheeseType> order = normalOrder;
 
         if (GameSettings.Mode == RouteMode.Custom &&
@@ -45,7 +44,6 @@ public class PathManager : MonoBehaviour
             order = GameSettings.CustomOrder;
         }
 
-        // 2) Insertamos un nodo por cada queso, al final de la lista
         foreach (CheeseType type in order)
         {
             Cheese cheese = FindCheese(type);
@@ -53,16 +51,9 @@ public class PathManager : MonoBehaviour
             else Debug.LogWarning($"No encontré el queso {type} en la escena");
         }
 
-        // 3) Empezamos en Head (normal / custom) o en Tail (invertido)
         currentNode = reversed ? route.Tail : route.Head;
-
-        // 4) Mostramos la lista en la consola
-        Debug.Log($"=== Modo: {GameSettings.Mode} ===");
-        route.PrintToConsole(c => c.type.ToString());
     }
 
-    // El agente llama esto al terminar de comerse un queso.
-    // Ir hacia adelante = Next. Ir hacia atrás = Previous.
     public void Advance()
     {
         if (currentNode == null) return;
@@ -79,11 +70,4 @@ public class PathManager : MonoBehaviour
         return null;
     }
 
-    // Texto en pantalla rápido para depurar sin montar UI
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(10, 10, 600, 25), $"Modo: {GameSettings.Mode}");
-        string target = Finished ? "ninguno (terminó)" : CurrentCheese.type.ToString();
-        GUI.Label(new Rect(10, 30, 600, 25), $"Objetivo actual: {target}");
-    }
 }
