@@ -1,7 +1,5 @@
 using UnityEngine;
-
-// El agente NO decide qué hacer en cada momento (eso lo hacen los estados).
-// Solo ofrece "herramientas": calcular fuerzas, moverse, detectar obstáculos, comer.
+// Esto solo ofrece "herramientas": calcular fuerzas, moverse, detectar obstáculos, comer.
 public class SteeringAgent : MonoBehaviour
 {
     [SerializeField] private PathManager path;
@@ -31,13 +29,12 @@ public class SteeringAgent : MonoBehaviour
     [SerializeField] private float idleTime = 1f;          // espera inicial
     [SerializeField] private float avoidClearTime = 0.3f;  // camino libre antes de volver a Moving
 
-    // ---------- Acceso para los estados (solo lectura) ----------
     public PathManager Path => path;
     public float IdleTime => idleTime;
     public float EatPause => eatPause;
     public float AvoidClearTime => avoidClearTime;
 
-    // ---------- La máquina y sus estados ----------
+    //FSM
     public StateMachine Fsm { get; private set; }
     public IState StateIdle { get; private set; }
     public IState StateMoving { get; private set; }
@@ -47,7 +44,6 @@ public class SteeringAgent : MonoBehaviour
 
     private Vector2 velocity;
 
-    // Lado por el que se rodea el obstáculo: +1 = izquierda, -1 = derecha
     private float avoidSide = 1f;
     private float avoidSideUntil;   // hasta cuándo se mantiene ese lado
 
@@ -58,7 +54,6 @@ public class SteeringAgent : MonoBehaviour
     private Vector2 Position => transform.position;
     private Vector2 TargetPosition => path.CurrentCheese.transform.position;
 
-    // ---------- Ciclo de vida de Unity ----------
 
     private void Awake()
     {
@@ -80,8 +75,6 @@ public class SteeringAgent : MonoBehaviour
         Fsm.Tick();
     }
 
-    // ---------- Herramientas que usan los estados ----------
-
     public void Stop()
     {
         velocity = Vector2.zero;
@@ -101,8 +94,6 @@ public class SteeringAgent : MonoBehaviour
     }
 
     // ARRIVAL: fuerza para ir al queso frenando suave.
-    // La rapidez baja con la distancia, pero nunca por debajo de minArrivalSpeed:
-    // sin ese piso, el agente se "arrastra" y tarda mucho en cubrir los últimos centímetros.
     public Vector2 ComputeArrive()
     {
         Vector2 toTarget = TargetPosition - Position;

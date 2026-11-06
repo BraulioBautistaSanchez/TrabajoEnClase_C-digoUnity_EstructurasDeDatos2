@@ -12,16 +12,16 @@ public class CheeseSpawner : MonoBehaviour
     [Header("Referencias")]
     [SerializeField] private PathManager path;
     [SerializeField] private Transform agent;
-    [SerializeField] private Cheese cheesePrefab;   // prefab con el componente Cheese
+    [SerializeField] private Cheese cheesePrefab;  
 
     [Header("Área del mapa (se dibuja en cian en la vista Scene)")]
     [SerializeField] private Vector2 mapCenter = Vector2.zero;
     [SerializeField] private Vector2 mapSize = new Vector2(16f, 9f);
-    [SerializeField] private float edgeMargin = 0.5f;   // separación mínima con los bordes
+    [SerializeField] private float edgeMargin = 0.5f; 
 
     [Header("Reglas de posición")]
-    [SerializeField] private LayerMask obstacleMask;            // capa "Obstacle"
-    [SerializeField] private float obstacleClearRadius = 0.6f;  // espacio libre alrededor del queso
+    [SerializeField] private LayerMask obstacleMask;            
+    [SerializeField] private float obstacleClearRadius = 0.6f;  
     [SerializeField] private float minDistanceBetweenCheeses = 3f;
     [SerializeField] private float minDistanceFromAgent = 1.5f;
     [SerializeField] private int maxAttempts = 50;
@@ -31,7 +31,7 @@ public class CheeseSpawner : MonoBehaviour
 
     [Header("Quesos extra")]
     [SerializeField] private KeyCode spawnKey = KeyCode.N;
-    [SerializeField] private float autoSpawnInterval = 0f;  // segundos; 0 = desactivado
+    [SerializeField] private float autoSpawnInterval = 0f;  
     [SerializeField] private int maxBonusCheeses = 3;
 
     private int bonusCount;
@@ -57,7 +57,7 @@ public class CheeseSpawner : MonoBehaviour
         }
     }
 
-    // ---------- 1) Reubicar los quesos iniciales ----------
+ //Reubicar los quesos iniciales
 
     private void RandomizeInitialCheeses()
     {
@@ -79,9 +79,10 @@ public class CheeseSpawner : MonoBehaviour
         }
     }
 
-    // ---------- 2) Crear un queso nuevo en juego ----------
+// Crear un queso nuevo en juego 
 
-    public void SpawnBonusCheese()   // pública: también se puede llamar desde un botón de UI
+
+    public void SpawnBonusCheese()  
     {
         if (bonusCount >= maxBonusCheeses) return;
 
@@ -104,8 +105,7 @@ public class CheeseSpawner : MonoBehaviour
         path.AddCheese(cheese);     // se engancha como nodo nuevo en la lista ligada
     }
 
-    // ---------- Búsqueda de una posición válida ----------
-
+// Búsqueda de una posición válida
     private bool TryGetValidPosition(List<Vector2> occupied, out Vector2 result)
     {
         float halfX = mapSize.x / 2f - edgeMargin;

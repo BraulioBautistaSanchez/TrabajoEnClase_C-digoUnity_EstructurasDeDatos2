@@ -1,10 +1,5 @@
 using UnityEngine;
-
-// ---------------------------------------------------------------
 // Clase base para los estados del agente.
-// Guarda la referencia al agente y da Enter/Exit vacíos por defecto,
-// para que cada estado solo escriba lo que necesita.
-// ---------------------------------------------------------------
 public abstract class AgentState : IState
 {
     protected readonly SteeringAgent agent;
@@ -25,10 +20,7 @@ public abstract class AgentState : IState
     }
 }
 
-// ---------------------------------------------------------------
 // IDLE: el agente espera un momento al iniciar la escena.
-// Salidas: -> Moving (pasó el tiempo) | -> Finished (no hay quesos)
-// ---------------------------------------------------------------
 public class IdleState : AgentState
 {
     private float timer;
@@ -50,12 +42,8 @@ public class IdleState : AgentState
     }
 }
 
-// ---------------------------------------------------------------
 // MOVING: va hacia el queso actual (Path Following + Arrival).
-// Salidas: -> Finished (no quedan quesos)
-//          -> Eating   (llegó al queso)
-//          -> Avoiding (hay un obstáculo adelante)
-// ---------------------------------------------------------------
+
 public class MovingState : AgentState
 {
     public MovingState(SteeringAgent agent) : base(agent) { }
@@ -84,11 +72,7 @@ public class MovingState : AgentState
     }
 }
 
-// ---------------------------------------------------------------
 // AVOIDING: hay un obstáculo entre el agente y el queso; el esquive tiene prioridad.
-// Salidas: -> Eating (llegó al queso)
-//          -> Moving (el camino lleva libre un rato)
-// ---------------------------------------------------------------
 public class AvoidingState : AgentState
 {
     private float clearTimer;   // cuánto tiempo lleva el camino libre
@@ -129,10 +113,8 @@ public class AvoidingState : AgentState
     }
 }
 
-// ---------------------------------------------------------------
 // EATING: se come el queso (y avanza al siguiente nodo de la lista).
-// Salidas: -> Moving (hay más quesos) | -> Finished (era el último)
-// ---------------------------------------------------------------
+
 public class EatingState : AgentState
 {
     private float timer;
@@ -155,10 +137,7 @@ public class EatingState : AgentState
     }
 }
 
-// ---------------------------------------------------------------
 // FINISHED: ya pasó por todos los quesos y espera.
-// Salida: -> Moving (si se agrega un queso nuevo a la lista)
-// ---------------------------------------------------------------
 public class FinishedState : AgentState
 {
     public FinishedState(SteeringAgent agent) : base(agent) { }

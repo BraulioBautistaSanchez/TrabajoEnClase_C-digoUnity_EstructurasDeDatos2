@@ -2,11 +2,6 @@ using System;
 using System.Text;
 using UnityEngine;
 
-// ---------------------------------------------------------------
-// NODO: una "cajita" que guarda un dato y dos flechas (referencias):
-//   Next     -> el nodo que sigue
-//   Previous -> el nodo anterior
-// ---------------------------------------------------------------
 public class Node<T>
 {
     public T Data;
@@ -21,14 +16,6 @@ public class Node<T>
     }
 }
 
-// ---------------------------------------------------------------
-// LISTA DOBLEMENTE LIGADA hecha desde cero (no usa System.Collections.Generic.LinkedList)
-//
-//  null <- [Head] <-> [ ] <-> [ ] <-> [Tail] -> null
-//
-// Solo guardamos Head y Tail; todo lo demás se alcanza "caminando"
-// de nodo en nodo con Next / Previous.
-// ---------------------------------------------------------------
 public class MyLinkedList<T>
 {
     public Node<T> Head { get; private set; }
@@ -82,7 +69,6 @@ public class MyLinkedList<T>
     }
 
     // Muestra la lista en la consola de Unity, de Head a Tail y de Tail a Head.
-    // 'label' le dice cómo convertir cada dato en texto.
     public void PrintToConsole(Func<T, string> label)
     {
         if (Head == null)
@@ -91,7 +77,7 @@ public class MyLinkedList<T>
             return;
         }
 
-        // Recorrido hacia adelante: seguimos las flechas Next
+
         StringBuilder forward = new StringBuilder("[Lista] Head -> ");
         Node<T> current = Head;
         int index = 0;
@@ -104,7 +90,7 @@ public class MyLinkedList<T>
         forward.Append("null");
         Debug.Log(forward.ToString());
 
-        // Recorrido hacia atrás: seguimos las flechas Previous
+
         StringBuilder backward = new StringBuilder("[Lista] Tail -> ");
         current = Tail;
         while (current != null)

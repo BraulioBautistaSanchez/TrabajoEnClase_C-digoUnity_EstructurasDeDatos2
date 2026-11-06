@@ -1,7 +1,6 @@
 using UnityEngine;
 
-// La máquina de estados: solo recuerda cuál es el estado actual
-// y se encarga de cambiarlo de forma ordenada.
+// La máquina de estados: solo recuerda cuál es el estado actua y se encarga de cambiarlo de forma ordenada.
 public class StateMachine
 {
     public IState Current { get; private set; }
