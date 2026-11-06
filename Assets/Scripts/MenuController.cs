@@ -12,10 +12,11 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private GameObject customPanel;
 
-    [Header("Panel Custom MOde")]
+    [Header("Panel personalizado")]
     [SerializeField] private TMP_Text orderText;
     [SerializeField] private Button startCustomButton;
-   
+    // Debe haber 4 botones, en el orden del enum:
+    // 0 = Big, 1 = Normal, 2 = Anormal, 3 = Little
     [SerializeField] private Button[] cheeseButtons;
 
     private readonly List<CheeseType> chosen = new List<CheeseType>();
@@ -46,13 +47,16 @@ public class MenuController : MonoBehaviour
         ResetCustom();
     }
 
+    // ---------- Panel de orden personalizado ----------
+
+    // Cada botón de queso llama a esto con su número (0..3) en el OnClick.
     public void PickCheese(int typeIndex)
     {
         CheeseType type = (CheeseType)typeIndex;
         if (chosen.Contains(type)) return;
 
         chosen.Add(type);
-        cheeseButtons[typeIndex].interactable = false;
+        cheeseButtons[typeIndex].interactable = false; // ya no se puede repetir
         RefreshUI();
     }
 
@@ -68,7 +72,7 @@ public class MenuController : MonoBehaviour
         if (chosen.Count < cheeseButtons.Length) return;
 
         GameSettings.Mode = RouteMode.Custom;
-        GameSettings.CustomOrder = new List<CheeseType>(chosen); 
+        GameSettings.CustomOrder = new List<CheeseType>(chosen); // copia
         SceneManager.LoadScene(gameSceneName);
     }
 
